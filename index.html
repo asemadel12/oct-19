@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/style/style.css" />
+    <title>Full Screen Video</title>
+  </head>
+  <body>
+    <p class="date">Oct 19</p>
+
+    <p class="text" id="typewriter">
+      met you 5 years ago, We shared moments that are imprinted on our hearts,
+      moments that will never be forgotten. You are my lonely star, lighting up
+      my darkness. I am the moon to your night, I will always be your constant,
+      the one who calms your storms, lights your way.
+    </p>
+    <video autoplay muted loop>
+      <source src="assets/media/background.mp4" type="video/mp4" />
+    </video>
+    <audio id="bg-music" loop preload="auto" playsinline>
+      <source src="assets/media/audio.mp3" type="audio/mpeg" />
+    </audio>
+
+    <div class="star">
+      <img src="assets/media/star.png" alt="" />
+    </div>
+    <div class="moon">
+      <img src="assets/media/moon.png" alt="" />
+    </div>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const audio = document.getElementById("bg-music"); // الآن العنصر موجود
+
+        const catcher = document.createElement("div");
+        catcher.style.position = "fixed";
+        catcher.style.inset = "0";
+        catcher.style.zIndex = "9999";
+        catcher.style.background = "transparent";
+        document.body.appendChild(catcher);
+
+        function tryPlay() {
+          if (!audio) return;
+          audio
+            .play()
+            .then(() => {
+              catcher.remove();
+            })
+            .catch((err) =>
+              console.warn("Play blocked after interaction", err)
+            );
+        }
+
+        function onFirstInteract() {
+          tryPlay();
+        }
+
+        catcher.addEventListener("click", onFirstInteract, {
+          once: true,
+          passive: true,
+        });
+        catcher.addEventListener("touchstart", onFirstInteract, {
+          once: true,
+          passive: true,
+        });
+      });
+
+      const textEl = document.getElementById("typewriter");
+      const text = textEl.innerText.trim();
+      textEl.innerText = "";
+      textEl.classList.add("blink");
+
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          textEl.innerText += text.charAt(i);
+          i++;
+          setTimeout(type, 50);
+        } else {
+          textEl.classList.remove("blink");
+        }
+      }
+
+      type();
+    </script>
+  </body>
+</html>
