@@ -51,7 +51,7 @@ video {
   object-fit: fill;
 }
 body::before {
-  content: "hii";
+  content: "";
   background-color: black;
   position: absolute;
   z-index: 1;
